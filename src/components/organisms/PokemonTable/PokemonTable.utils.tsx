@@ -1,11 +1,12 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 import { GridActionsCellItem, GridColDef, GridRowId } from '@mui/x-data-grid';
-import { bulkRemoveCaughtPokemons, CaughtPokemon } from 'utils/localStorage';
+import { CaughtPokemon } from 'utils/localStorage';
 import { ReactComponent as DeleteIcon } from '../../../assets/svg/delete.svg';
 import { Row } from './types';
+import { Box } from '@mui/material';
 
 export const getDataGridColumns = (
-  setRows: Dispatch<SetStateAction<Row[]>>
+  setRowToDeleteId: (id: string) => void
 ): GridColDef[] => {
   const columns: GridColDef[] = [
     {
@@ -36,14 +37,31 @@ export const getDataGridColumns = (
       width: 200
     },
     {
+      field: 'types',
+      headerName: 'Types',
+      width: 200,
+      renderCell: (params) => (
+        <Box
+          component='ul'
+          sx={{ padding: 0, margin: 0, listStyleType: 'none' }}
+        >
+          {params.value.map((item, index) => (
+            <Box component='li' key={index}>
+              {item}
+            </Box>
+          ))}
+        </Box>
+      )
+    },
+    { field: 'caughtDate', headerName: 'Caught Date', width: 260 },
+    {
       field: 'actions',
       type: 'actions',
       headerName: 'Actions',
-      width: 100,
+      width: 200,
       getActions: ({ id }) => {
         const handleDelete = (id: GridRowId) => () => {
-          bulkRemoveCaughtPokemons([Number(id)]);
-          setRows((prev) => prev.filter((row) => row.id !== id));
+          setRowToDeleteId(id as string);
         };
 
         return [
@@ -77,7 +95,9 @@ export const getDataGridRows = (pokemons: CaughtPokemon[]): Row[] => {
       )?.base_stat,
       specialDefense: pokemon.stats.find(
         (stat) => stat.stat.name === 'special-defense'
-      )?.base_stat
+      )?.base_stat,
+      types: pokemon.types.map((type) => type.type.name),
+      caughtDate: pokemon.timestamp
     };
   });
 };

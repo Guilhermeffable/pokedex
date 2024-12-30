@@ -15,6 +15,7 @@ import {
   addTextNoteToCaughtPokemon,
   bulkRemoveCaughtPokemons
 } from 'utils/localStorage';
+import DeleteDialog from '../DeleteDialog';
 
 const PokemonGrid: FC<PokemonGridProps> = ({
   pokemons,
@@ -92,28 +93,11 @@ const PokemonGrid: FC<PokemonGridProps> = ({
         </Button>
       )}
       {showRemoveDialog && (
-        <Dialog
-          open={showRemoveDialog}
-          onClose={() => setShowRemoveDialog(false)}
-          aria-labelledby='alert-dialog-title'
-          aria-describedby='alert-dialog-description'
-        >
-          <DialogTitle id='alert-dialog-title'>
-            {'Do you want to proceed with the deletion of these Pokemon?'}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id='alert-dialog-description'>
-              You'll have to catch them again if you proceed with the deletion!
-              Are you sure?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setShowRemoveDialog(false)}>No</Button>
-            <Button onClick={onRemoveClick} autoFocus>
-              Yes
-            </Button>
-          </DialogActions>
-        </Dialog>
+        <DeleteDialog
+          onRemoveClick={onRemoveClick}
+          showRemoveDialog={showRemoveDialog}
+          setShowRemoveDialog={setShowRemoveDialog}
+        />
       )}
     </>
   );

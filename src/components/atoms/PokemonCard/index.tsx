@@ -8,6 +8,7 @@ import {
   Checkbox,
   Chip,
   Snackbar,
+  Stack,
   TextField,
   Typography
 } from '@mui/material';
@@ -54,7 +55,10 @@ const PokemonCard: FC<PokemonCardProps> = ({
   };
 
   return (
-    <Card sx={{ height: '100%' }} className='flex-grow'>
+    <Card
+      sx={{ height: '100%', position: 'relative' }}
+      className='flex-grow flex flex-col justify-between'
+    >
       {isEditMode && (
         <Checkbox
           checked={isChecked}
@@ -63,56 +67,66 @@ const PokemonCard: FC<PokemonCardProps> = ({
       )}
       <CardMedia
         component='img'
-        alt='green iguana'
+        alt={pokemon.name}
         height='auto'
         width='248'
         image={pokemon.sprites.front_default || DEFAULT_IMG}
       />
       <CardContent>
-        <div className='flex justify-between align-center mb-2'>
-          <Typography
-            variant='h5'
-            component='div'
-            className='uppercase'
+        <Stack spacing={2} justifyContent={'space-between'}>
+          <div className='flex justify-between align-center mb-2'>
+            <Typography
+              variant='h5'
+              component='div'
+              className='uppercase'
+              sx={{
+                fontWeight: '800',
+                wordBreak: 'break-word',
+                textAlign: 'left'
+              }}
+            >
+              {pokemon.name}
+            </Typography>
+            {hasBeenCaught && (
+              <Chip
+                label='CAUGHT'
+                color='error'
+                size='small'
+                sx={{ position: 'absolute', top: '0.5rem', right: '0.25rem' }}
+              />
+            )}
+          </div>
+          <CardActions
+            disableSpacing
             sx={{
-              fontWeight: '800',
-              wordBreak: 'break-word',
-              textAlign: 'left'
+              flexDirection: 'column',
+              justifyContent: 'start',
+              padding: '0'
             }}
           >
-            {pokemon.name}
-          </Typography>
-          {hasBeenCaught && <Chip label='CAUGHT' color='error' />}
-        </div>
-        <CardActions
-          disableSpacing
-          sx={{
-            flexDirection: 'column',
-            justifyContent: 'start',
-            padding: '0'
-          }}
-        >
-          <Button
-            size='small'
-            color='primary'
-            sx={{ textAlign: 'left', alignSelf: 'start' }}
-            onClick={() => shareClick()}
-          >
-            Share
-          </Button>
-          <Button
-            size='small'
-            sx={{ textAlign: 'left', alignSelf: 'start' }}
-            onClick={() => moreDetailsClick()}
-          >
-            More details...
-          </Button>
-        </CardActions>
+            <Button
+              size='small'
+              color='primary'
+              sx={{ textAlign: 'left', alignSelf: 'start' }}
+              onClick={() => shareClick()}
+            >
+              Share
+            </Button>
+            <Button
+              size='small'
+              sx={{ textAlign: 'left', alignSelf: 'start' }}
+              onClick={() => moreDetailsClick()}
+            >
+              More details...
+            </Button>
+          </CardActions>
+        </Stack>
         <Snackbar
           open={isSnackBarOpen}
           autoHideDuration={6000}
           onClose={onSnackBarClose}
           message='Link was copied to your clipboard!'
+          sx={{ width: { xs: '100%', sm: 'auto' } }}
         />
         {isEditMode && !isTextFieldShown && (
           <Button

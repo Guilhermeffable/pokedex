@@ -43,7 +43,7 @@ const MainPage = () => {
           dispatch({ type: ActionTypes.SET_LISTED_POKEMONS, payload: data });
           setPokemons(data);
         })
-        .finally(() => setTimeout(() => setIsLoading(false), 1500))
+        .finally(() => setTimeout(() => setIsLoading(false), 500))
         .catch((error) => console.error(error));
     };
 
@@ -59,7 +59,7 @@ const MainPage = () => {
     <Container>
       <Typography
         variant='h1'
-        sx={{ mt: 2, mb: 2 }}
+        sx={{ mt: 2, mb: 2, fontSize: { xs: '4rem', lg: '5rem' } }}
         className='uppercase text-center'
       >
         Pokedex

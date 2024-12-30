@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useRef, useState } from 'react';
 import { CustomToolbarProps, PokemonTableProps, Row } from './types';
 import { Button, Paper } from '@mui/material';
 import {
@@ -13,6 +13,7 @@ import {
 import { getDataGridColumns, getDataGridRows } from './PokemonTable.utils';
 import { bulkRemoveCaughtPokemons } from 'utils/localStorage';
 import { ReactComponent as DeleteIcon } from '../../../assets/svg/delete.svg';
+import DeleteDialog from 'components/molecules/DeleteDialog';
 
 const CustomToolbar: FC<CustomToolbarProps> = ({
   handleDeleteRows,
@@ -43,6 +44,8 @@ const PokemonTable: FC<PokemonTableProps> = ({ pokemons }) => {
   const [selectionModel, setSelectionModel] = useState<GridRowSelectionModel>(
     []
   );
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const rowToDeleteId = useRef<string | null>(null);
 
   const handleSelectionModelChange = (newSelection: GridRowSelectionModel) => {
     setSelectionModel(newSelection);
@@ -51,41 +54,67 @@ const PokemonTable: FC<PokemonTableProps> = ({ pokemons }) => {
   const handleDeleteRows = () => {
     setRows((prev) => prev.filter((row) => !selectionModel.includes(row.id)));
     bulkRemoveCaughtPokemons(selectionModel.map((id) => Number(id)));
+    setShowDeleteDialog(false);
   };
 
-  const dataGridColumns = getDataGridColumns(setRows);
+  const handeSingleRowDelete = () => {
+    bulkRemoveCaughtPokemons([Number(rowToDeleteId.current)]);
+    setRows((prev) => prev.filter((row) => row.id !== rowToDeleteId.current));
+    setShowDeleteDialog(false);
+  };
+
+  const getRowToDeleteId = (id: string) => {
+    rowToDeleteId.current = id;
+    setShowDeleteDialog(true);
+  };
+
+  const dataGridColumns = getDataGridColumns(getRowToDeleteId);
 
   return (
-    <Paper sx={{ height: 400, width: '100%' }}>
-      <DataGrid
-        rows={rows}
-        columns={dataGridColumns}
-        checkboxSelection
-        className='leading-none'
-        onRowSelectionModelChange={handleSelectionModelChange}
-        slots={{
-          toolbar: () => (
-            <CustomToolbar
-              handleDeleteRows={handleDeleteRows}
-              selectionModel={selectionModel}
-            />
-          )
-        }}
-        sx={{
-          '& .MuiDataGrid-columnHeaderTitleContainer': {
-            overflow: 'visible',
-            whiteSpace: 'normal',
-            lineHeight: 'normal'
-          },
-          '& .MuiDataGrid-columnHeaderTitle': {
-            lineHeight: '1.5rem',
-            overflow: 'visible',
-            whiteSpace: 'normal',
-            textOverflow: 'clip'
-          }
-        }}
+    <>
+      <Paper sx={{ height: 400, width: '100%' }}>
+        <DataGrid
+          rows={rows}
+          columns={dataGridColumns}
+          checkboxSelection
+          className='leading-none'
+          onRowSelectionModelChange={handleSelectionModelChange}
+          slots={{
+            toolbar: () => (
+              <CustomToolbar
+                handleDeleteRows={() => setShowDeleteDialog(true)}
+                selectionModel={selectionModel}
+              />
+            )
+          }}
+          getRowHeight={() => 'auto'}
+          sx={{
+            '& .MuiDataGrid-columnHeaderTitleContainer': {
+              overflow: 'visible',
+              whiteSpace: 'normal',
+              lineHeight: 'normal'
+            },
+            '& .MuiDataGrid-columnHeaderTitle': {
+              lineHeight: '1.5rem',
+              overflow: 'visible',
+              whiteSpace: 'normal',
+              textOverflow: 'clip'
+            },
+            '& .MuiDataGrid-cell': {
+              display: 'flex',
+              alignItems: 'center'
+            }
+          }}
+        />
+      </Paper>
+      <DeleteDialog
+        showRemoveDialog={showDeleteDialog}
+        setShowRemoveDialog={setShowDeleteDialog}
+        onRemoveClick={
+          selectionModel.length === 0 ? handeSingleRowDelete : handleDeleteRows
+        }
       />
-    </Paper>
+    </>
   );
 };
 
