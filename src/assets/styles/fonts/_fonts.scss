@@ -1,0 +1,11 @@
+@font-face {
+  font-family: 'Pokemon';
+  src: url('../../fonts/PokemonGb-RAeo.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+// Example usage
+body {
+  font-family: 'Pokemon', sans-serif;
+}
