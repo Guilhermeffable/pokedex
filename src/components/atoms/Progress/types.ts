@@ -1,4 +1,4 @@
-export interface ProgressBarProps {
+export interface ProgressProps {
   total: number;
   progress: number;
 }

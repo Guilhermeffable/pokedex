@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 
+import { Box, Stack } from '@mui/material';
 import Pagination from '@mui/material/Pagination';
 import { useAppContext } from 'context';
 import { ActionTypes } from 'reducer/types';
@@ -16,9 +17,9 @@ const PaginationComponent: FC<PaginationProps> = ({ numberOfPokemons }) => {
   };
 
   return (
-    <div className='my-3 flex justify-center'>
+    <Stack direction='row' justifyContent={'center'} py={3}>
       <Pagination count={totalPages} onChange={handleChange} />
-    </div>
+    </Stack>
   );
 };
 

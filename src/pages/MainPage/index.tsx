@@ -1,14 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import { Container, Stack, Typography } from '@mui/material';
+import { Box, Button, Container, Divider, Stack } from '@mui/material';
 import Pagination from 'components/atoms/Pagination';
-import ProgressBar from 'components/atoms/ProgressBar';
+import Progress from 'components/atoms/Progress/Progress';
+import LoadingScreen from 'components/molecules/LoadingScreen/LoadingScreen';
 import PokemonGrid from 'components/molecules/PokemonGrid';
 import { useAppContext } from 'context';
 import { PokemonClient, Pokemon } from 'pokenode-ts';
 import { useNavigate } from 'react-router-dom';
 import { ActionTypes } from 'reducer/types';
+import { fetchAllPokemons } from 'utils/csv';
 import { getCaughtPokemons } from 'utils/localStorage';
+
+import PokemonLogo from '../../assets/images/pokemon-logo.png';
 
 const MainPage = () => {
   const caughtPokemons = getCaughtPokemons();
@@ -17,6 +21,7 @@ const MainPage = () => {
   const numberOfPokemons = useRef<number>(0);
   const { state, dispatch } = useAppContext();
   const [isLoading, setIsLoading] = useState(true);
+  const [isExporting, setIsExporting] = useState(false);
   const navigate = useNavigate();
   const [numberOfCaughtPokemons, setNumberOfCaughtPokemons] = useState<number>(caughtPokemons.length);
 
@@ -56,22 +61,38 @@ const MainPage = () => {
     setNumberOfCaughtPokemons(caughtPokemons.length);
   }, [caughtPokemons]);
 
+  const exportPokemons = () => {
+    setIsExporting(true);
+    fetchAllPokemons().finally(() => setIsExporting(false));
+  };
+
   return (
     <Container>
-      <Typography
-        variant='h1'
-        sx={{ mt: 2, mb: 2, fontSize: { xs: '4rem', lg: '5rem' } }}
-        className='uppercase text-center'>
-        Pokedex
-      </Typography>
-      <Stack direction='row' spacing={2} sx={{ mb: 2 }}>
-        <button className='cursor-pointer' onClick={() => void navigate('/my-pokedex')}>
+      <Box component='div' sx={{ mb: 4 }}>
+        <Box
+          component='img'
+          src={PokemonLogo}
+          alt='pokemon-logo'
+          sx={{ width: '100%', maxWidth: '700px', margin: 'auto' }}
+        />
+      </Box>
+      <Stack direction='row' justifyContent={'center'} spacing={2} sx={{ mb: 2 }}>
+        <Button
+          sx={{ cursor: 'pointer' }}
+          variant='contained'
+          color='info'
+          onClick={() => void navigate('/my-pokedex')}>
           My pokedex
-        </button>
-        <ProgressBar total={numberOfPokemons.current} progress={numberOfCaughtPokemons} />
+        </Button>
+        <Button color='secondary' variant='outlined' onClick={() => exportPokemons()}>
+          Export all pokemons
+        </Button>
       </Stack>
+      <Progress total={numberOfPokemons.current} progress={numberOfCaughtPokemons} />
+      <Divider sx={{ mb: 4 }} />
       <PokemonGrid isLoading={isLoading} pokemons={pokemons} />
       <Pagination numberOfPokemons={numberOfPokemons.current} />
+      {isExporting && <LoadingScreen open={isExporting} />}
     </Container>
   );
 };

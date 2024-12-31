@@ -13,6 +13,7 @@ import { ReactComponent as Ground } from './ground.svg';
 import { ReactComponent as Ice } from './ice.svg';
 import { ReactComponent as Normal } from './normal.svg';
 import { ReactComponent as Poison } from './poison.svg';
+import { ReactComponent as PokemonLogo } from './pokemon.svg';
 import { ReactComponent as Psychic } from './psychic.svg';
 import { ReactComponent as Rock } from './rock.svg';
 import { ReactComponent as Steel } from './steel.svg';
@@ -34,6 +35,7 @@ export {
   Ice,
   Normal,
   Poison,
+  PokemonLogo,
   Psychic,
   Rock,
   Steel,
