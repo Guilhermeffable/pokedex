@@ -1,13 +1,12 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-import { AppContextProvider } from 'context';
-import MainPage from 'pages/MainPage';
-
-import './assets/styles/main.scss';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { AppContextProvider } from 'context';
 import Details from 'pages/Details';
-import MyPokedex from 'pages/MyPokedex';
+import MainPage from 'pages/MainPage';
+import './assets/styles/main.scss';
+import MyPokedex from 'pages/MyPokedex/MyPokedex';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 const theme = createTheme({
   typography: { fontFamily: 'Pokemon, sans-serif' }

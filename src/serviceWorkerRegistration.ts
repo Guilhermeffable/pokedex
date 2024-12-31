@@ -13,9 +13,7 @@
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
     window.location.hostname === '[::1]' ||
-    window.location.hostname.match(
-      /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
-    )
+    window.location.hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/)
 );
 
 type Config = {
@@ -26,10 +24,7 @@ type Config = {
 export function register(config?: Config) {
   if ('serviceWorker' in navigator) {
     try {
-      const publicUrl = new URL(
-        process.env.PUBLIC_URL || '',
-        window.location.href
-      );
+      const publicUrl = new URL(process.env.PUBLIC_URL || '', window.location.href);
       if (publicUrl.origin !== window.location.origin) {
         console.warn('Service worker origin mismatch - skipping registration');
         return;
@@ -40,9 +35,7 @@ export function register(config?: Config) {
         if (isLocalhost) {
           await checkValidServiceWorker(swUrl, config);
           navigator.serviceWorker.ready.then(() => {
-            console.log(
-              'Web app served cache-first by service worker. See https://cra.link/PWA'
-            );
+            console.log('Web app served cache-first by service worker. See https://cra.link/PWA');
           });
         } else {
           await registerValidSW(swUrl, config);
@@ -89,10 +82,7 @@ async function checkValidServiceWorker(swUrl: string, config?: Config) {
     });
     const contentType = response.headers.get('content-type');
 
-    if (
-      response.status === 404 ||
-      (contentType && !contentType.includes('javascript'))
-    ) {
+    if (response.status === 404 || (contentType && !contentType.includes('javascript'))) {
       await navigator.serviceWorker.ready;
       await unregister();
       window.location.reload();

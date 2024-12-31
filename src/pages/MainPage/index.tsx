@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
+
 import { Container, Stack, Typography } from '@mui/material';
 import Pagination from 'components/atoms/Pagination';
+import ProgressBar from 'components/atoms/ProgressBar';
+import PokemonGrid from 'components/molecules/PokemonGrid';
 import { useAppContext } from 'context';
 import { PokemonClient, Pokemon } from 'pokenode-ts';
-import { ActionTypes } from 'reducer/types';
 import { useNavigate } from 'react-router-dom';
-import ProgressBar from 'components/atoms/ProgressBar';
+import { ActionTypes } from 'reducer/types';
 import { getCaughtPokemons } from 'utils/localStorage';
-import PokemonGrid from 'components/molecules/PokemonGrid';
 
 const MainPage = () => {
   const caughtPokemons = getCaughtPokemons();
@@ -17,9 +18,7 @@ const MainPage = () => {
   const { state, dispatch } = useAppContext();
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-  const [numberOfCaughtPokemons, setNumberOfCaughtPokemons] = useState<number>(
-    caughtPokemons.length
-  );
+  const [numberOfCaughtPokemons, setNumberOfCaughtPokemons] = useState<number>(caughtPokemons.length);
 
   const api = new PokemonClient();
 
@@ -44,9 +43,11 @@ const MainPage = () => {
           setPokemons(data);
         })
         .finally(() => setTimeout(() => setIsLoading(false), 500))
+        // eslint-disable-next-line no-console
         .catch((error) => console.error(error));
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     fetchPokemons();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.currentPage]);
@@ -60,21 +61,14 @@ const MainPage = () => {
       <Typography
         variant='h1'
         sx={{ mt: 2, mb: 2, fontSize: { xs: '4rem', lg: '5rem' } }}
-        className='uppercase text-center'
-      >
+        className='uppercase text-center'>
         Pokedex
       </Typography>
       <Stack direction='row' spacing={2} sx={{ mb: 2 }}>
-        <button
-          className='cursor-pointer'
-          onClick={() => navigate('/my-pokedex')}
-        >
+        <button className='cursor-pointer' onClick={() => void navigate('/my-pokedex')}>
           My pokedex
         </button>
-        <ProgressBar
-          total={numberOfPokemons.current}
-          progress={numberOfCaughtPokemons}
-        />
+        <ProgressBar total={numberOfPokemons.current} progress={numberOfCaughtPokemons} />
       </Stack>
       <PokemonGrid isLoading={isLoading} pokemons={pokemons} />
       <Pagination numberOfPokemons={numberOfPokemons.current} />

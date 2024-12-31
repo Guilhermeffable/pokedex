@@ -1,5 +1,5 @@
 import React, { FC, useRef, useState } from 'react';
-import { CustomToolbarProps, PokemonTableProps, Row } from './types';
+
 import { Button, Paper } from '@mui/material';
 import {
   DataGrid,
@@ -10,15 +10,14 @@ import {
   GridToolbarExport,
   GridToolbarFilterButton
 } from '@mui/x-data-grid';
-import { getDataGridColumns, getDataGridRows } from './PokemonTable.utils';
-import { bulkRemoveCaughtPokemons } from 'utils/localStorage';
-import { ReactComponent as DeleteIcon } from '../../../assets/svg/delete.svg';
+import { Delete } from 'assets/svg';
 import DeleteDialog from 'components/molecules/DeleteDialog';
+import { bulkRemoveCaughtPokemons } from 'utils/localStorage';
 
-const CustomToolbar: FC<CustomToolbarProps> = ({
-  handleDeleteRows,
-  selectionModel
-}) => {
+import { getDataGridColumns, getDataGridRows } from './PokemonTable.utils';
+import { CustomToolbarProps, PokemonTableProps, Row } from './types';
+
+const CustomToolbar: FC<CustomToolbarProps> = ({ handleDeleteRows, selectionModel }) => {
   return (
     <GridToolbarContainer>
       <GridToolbarColumnsButton />
@@ -27,7 +26,7 @@ const CustomToolbar: FC<CustomToolbarProps> = ({
       <GridToolbarExport />
 
       <Button onClick={handleDeleteRows} disabled={selectionModel.length === 0}>
-        <DeleteIcon
+        <Delete
           width={18}
           stroke={selectionModel.length === 0 ? '#00000042' : '#1976d2'}
           style={{ marginRight: '0.5rem' }}
@@ -41,9 +40,7 @@ const CustomToolbar: FC<CustomToolbarProps> = ({
 const PokemonTable: FC<PokemonTableProps> = ({ pokemons }) => {
   const dataGridRows = getDataGridRows(pokemons);
   const [rows, setRows] = useState<Row[]>(dataGridRows);
-  const [selectionModel, setSelectionModel] = useState<GridRowSelectionModel>(
-    []
-  );
+  const [selectionModel, setSelectionModel] = useState<GridRowSelectionModel>([]);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const rowToDeleteId = useRef<string | null>(null);
 
@@ -81,10 +78,7 @@ const PokemonTable: FC<PokemonTableProps> = ({ pokemons }) => {
           onRowSelectionModelChange={handleSelectionModelChange}
           slots={{
             toolbar: () => (
-              <CustomToolbar
-                handleDeleteRows={() => setShowDeleteDialog(true)}
-                selectionModel={selectionModel}
-              />
+              <CustomToolbar handleDeleteRows={() => setShowDeleteDialog(true)} selectionModel={selectionModel} />
             )
           }}
           getRowHeight={() => 'auto'}
@@ -110,9 +104,7 @@ const PokemonTable: FC<PokemonTableProps> = ({ pokemons }) => {
       <DeleteDialog
         showRemoveDialog={showDeleteDialog}
         setShowRemoveDialog={setShowDeleteDialog}
-        onRemoveClick={
-          selectionModel.length === 0 ? handeSingleRowDelete : handleDeleteRows
-        }
+        onRemoveClick={selectionModel.length === 0 ? handeSingleRowDelete : handleDeleteRows}
       />
     </>
   );

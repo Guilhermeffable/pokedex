@@ -1,13 +1,16 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import React from 'react';
+
+import { Box } from '@mui/material';
 import { GridActionsCellItem, GridColDef, GridRowId } from '@mui/x-data-grid';
 import { CaughtPokemon } from 'utils/localStorage';
-import { ReactComponent as DeleteIcon } from '../../../assets/svg/delete.svg';
-import { Row } from './types';
-import { Box } from '@mui/material';
 
-export const getDataGridColumns = (
-  setRowToDeleteId: (id: string) => void
-): GridColDef[] => {
+import { ReactComponent as DeleteIcon } from '../../../assets/svg/delete.svg';
+
+import { Row } from './types';
+
+export const getDataGridColumns = (setRowToDeleteId: (id: string) => void): GridColDef[] => {
   const columns: GridColDef[] = [
     {
       field: 'name',
@@ -41,11 +44,8 @@ export const getDataGridColumns = (
       headerName: 'Types',
       width: 200,
       renderCell: (params) => (
-        <Box
-          component='ul'
-          sx={{ padding: 0, margin: 0, listStyleType: 'none' }}
-        >
-          {params.value.map((item, index) => (
+        <Box component='ul' sx={{ padding: 0, margin: 0, listStyleType: 'none' }}>
+          {params.value.map((item: string, index: number) => (
             <Box component='li' key={index}>
               {item}
             </Box>
@@ -60,12 +60,13 @@ export const getDataGridColumns = (
       headerName: 'Actions',
       width: 200,
       getActions: ({ id }) => {
-        const handleDelete = (id: GridRowId) => () => {
-          setRowToDeleteId(id as string);
+        const handleDelete = (idToDelete: GridRowId) => () => {
+          setRowToDeleteId(idToDelete as string);
         };
 
         return [
           <GridActionsCellItem
+            key={id}
             icon={<DeleteIcon width={24} stroke='#000' />}
             onClick={handleDelete(id)}
             label='Delete'
@@ -86,16 +87,10 @@ export const getDataGridRows = (pokemons: CaughtPokemon[]): Row[] => {
       name: pokemon.name.toLocaleUpperCase(),
       height: pokemon.height,
       weight: pokemon.weight,
-      attack: pokemon.stats.find((stat) => stat.stat.name === 'attack')
-        ?.base_stat,
-      defense: pokemon.stats.find((stat) => stat.stat.name === 'defense')
-        ?.base_stat,
-      specialAttack: pokemon.stats.find(
-        (stat) => stat.stat.name === 'special-attack'
-      )?.base_stat,
-      specialDefense: pokemon.stats.find(
-        (stat) => stat.stat.name === 'special-defense'
-      )?.base_stat,
+      attack: pokemon.stats.find((stat) => stat.stat.name === 'attack')?.base_stat,
+      defense: pokemon.stats.find((stat) => stat.stat.name === 'defense')?.base_stat,
+      specialAttack: pokemon.stats.find((stat) => stat.stat.name === 'special-attack')?.base_stat,
+      specialDefense: pokemon.stats.find((stat) => stat.stat.name === 'special-defense')?.base_stat,
       types: pokemon.types.map((type) => type.type.name),
       caughtDate: pokemon.timestamp
     };

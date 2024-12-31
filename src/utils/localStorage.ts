@@ -1,12 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Pokemon } from 'pokenode-ts';
+
 import { formatDateTime } from './date';
 
 export type CaughtPokemon = Pokemon & { timestamp: string; textNote?: string };
 
-export const updateCaughtPokemons = (
-  pokemon?: Pokemon,
-  shouldRemove: boolean = false
-) => {
+export const updateCaughtPokemons = (shouldRemove: boolean, pokemon?: Pokemon) => {
   const caughtPokemons = localStorage.getItem('caughtPokemons');
   let updatedCaughtPokemons: CaughtPokemon[] = [];
 
@@ -18,24 +17,16 @@ export const updateCaughtPokemons = (
         timestamp: formatDateTime(new Date())
       });
     } else {
-      updatedCaughtPokemons = updatedCaughtPokemons.filter(
-        (caughtPokemon) => caughtPokemon.id !== pokemon.id
-      );
+      updatedCaughtPokemons = updatedCaughtPokemons.filter((caughtPokemon) => caughtPokemon.id !== pokemon.id);
     }
 
-    localStorage.setItem(
-      'caughtPokemons',
-      JSON.stringify(updatedCaughtPokemons)
-    );
+    localStorage.setItem('caughtPokemons', JSON.stringify(updatedCaughtPokemons));
   } else {
     localStorage.setItem('caughtPokemons', JSON.stringify([]));
   }
 };
 
-export const addTextNoteToCaughtPokemon = (
-  pokemonId: number,
-  textNote: string
-) => {
+export const addTextNoteToCaughtPokemon = (pokemonId: number, textNote: string) => {
   const caughtPokemons = getCaughtPokemons();
 
   if (caughtPokemons) {
@@ -50,19 +41,14 @@ export const addTextNoteToCaughtPokemon = (
       return pokemon;
     });
 
-    localStorage.setItem(
-      'caughtPokemons',
-      JSON.stringify(updatedCaughtPokemons)
-    );
+    localStorage.setItem('caughtPokemons', JSON.stringify(updatedCaughtPokemons));
   }
 };
 
 export const getCaughtPokemons = () => {
   const caughtPokemons = localStorage.getItem('caughtPokemons');
 
-  const parsedCaughtPokemons: CaughtPokemon[] = JSON.parse(
-    caughtPokemons || '[]'
-  );
+  const parsedCaughtPokemons: CaughtPokemon[] = JSON.parse(caughtPokemons || '[]');
 
   return parsedCaughtPokemons;
 };
@@ -71,13 +57,8 @@ export const bulkRemoveCaughtPokemons = (pokemonIds: number[]) => {
   const caughtPokemons = getCaughtPokemons();
 
   if (caughtPokemons) {
-    const updatedCaughtPokemons = caughtPokemons.filter(
-      (pokemon) => !pokemonIds.includes(pokemon.id)
-    );
+    const updatedCaughtPokemons = caughtPokemons.filter((pokemon) => !pokemonIds.includes(pokemon.id));
 
-    localStorage.setItem(
-      'caughtPokemons',
-      JSON.stringify(updatedCaughtPokemons)
-    );
+    localStorage.setItem('caughtPokemons', JSON.stringify(updatedCaughtPokemons));
   }
 };

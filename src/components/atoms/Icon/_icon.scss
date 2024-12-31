@@ -1,0 +1,48 @@
+@use '../../../assets/styles/settings/' as *;
+@use 'sass:map';
+
+@mixin icon-type($type) {
+  $type-color: map.get(
+    $map: $color-types,
+    $key: $type
+  );
+
+  &--#{$type} {
+    background-color: map.get($map: $color-types, $key: $type);
+    box-shadow: 0 0 1.25rem $type-color;
+  }
+}
+
+.icon {
+  border-radius: 100%;
+  height: auto;
+  width: 32px;
+  margin: auto;
+  transition: 200ms all;
+  padding: 8px;
+
+  @include icon-type('bug');
+  @include icon-type('dark');
+  @include icon-type('dragon');
+  @include icon-type('electric');
+  @include icon-type('fairy');
+  @include icon-type('fighting');
+  @include icon-type('fire');
+  @include icon-type('flying');
+  @include icon-type('ghost');
+  @include icon-type('grass');
+  @include icon-type('ground');
+  @include icon-type('ice');
+  @include icon-type('normal');
+  @include icon-type('poison');
+  @include icon-type('psychic');
+  @include icon-type('rock');
+  @include icon-type('steel');
+  @include icon-type('water');
+
+  svg {
+    fill: $color-white;
+    height: 100%;
+    width: 100%;
+  }
+}
