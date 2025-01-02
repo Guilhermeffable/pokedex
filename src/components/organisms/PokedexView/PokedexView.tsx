@@ -30,27 +30,35 @@ const Mobile: FC<PokedexViewMobileProps> = ({
         </Button>
         <SortDropdown {...sortProps} />
       </Stack>
-      <Stack direction={'row'} spacing={2} marginBottom={2}>
-        {!isTableView && (
-          <Button variant='contained' color='info' fullWidth onClick={() => setIsEditMode(true)} disabled={isEditMode}>
-            Manage
-          </Button>
-        )}
-        {isEditMode && !isTableView && (
-          <Button
-            variant='contained'
-            color='success'
-            sx={{ flexBasis: '33%' }}
-            fullWidth
-            onClick={() => setIsEditMode(false)}>
-            Done
-          </Button>
-        )}
+      <Stack direction={'row'} marginBottom={2} justifyContent={'space-between'}>
+        <Box>
+          {!isTableView && (
+            <Button
+              variant='contained'
+              color='info'
+              fullWidth
+              onClick={() => setIsEditMode(true)}
+              disabled={isEditMode}
+              sx={{ width: 'fit-content', mr: 1 }}>
+              Manage
+            </Button>
+          )}
+          {isEditMode && !isTableView && (
+            <Button
+              variant='contained'
+              color='success'
+              fullWidth
+              onClick={() => setIsEditMode(false)}
+              sx={{ width: 'fit-content' }}>
+              Done
+            </Button>
+          )}
+        </Box>
         <Button
           variant='contained'
-          color='primary'
+          color='secondary'
           onClick={() => (!isTableView ? setIsTableView(true) : setIsTableView(false))}>
-          {!isTableView ? 'Analysis' : 'Grid view'}
+          {!isTableView ? 'Analytic View' : 'Grid view'}
         </Button>
       </Stack>
       <Divider sx={{ mb: 2, height: '20px' }} />
@@ -82,16 +90,6 @@ const Desktop: FC<PokedexViewDesktopProps> = ({
     <Grid size={{ xs: 12, lg: 12 }} offset={{ lg: 3 }}>
       <Stack direction={'row'} spacing={2} sx={{ mb: 2 }} justifyContent={'space-between'}>
         <Stack direction={'row'} spacing={2}>
-          {isEditMode && !isTableView && (
-            <Button
-              variant='contained'
-              color='success'
-              sx={{ mt: 2, mr: 1 }}
-              onClick={() => setIsEditMode(false)}
-              size='small'>
-              Done
-            </Button>
-          )}
           {!isTableView && (
             <Button
               variant='contained'
@@ -100,6 +98,16 @@ const Desktop: FC<PokedexViewDesktopProps> = ({
               onClick={() => setIsEditMode(true)}
               disabled={isEditMode}>
               Manage
+            </Button>
+          )}
+          {isEditMode && !isTableView && (
+            <Button
+              variant='contained'
+              color='success'
+              sx={{ mt: 2, mr: 1 }}
+              onClick={() => setIsEditMode(false)}
+              size='small'>
+              Done
             </Button>
           )}
         </Stack>

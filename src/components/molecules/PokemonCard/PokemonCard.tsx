@@ -117,23 +117,25 @@ const PokemonCard: FC<PokemonCardProps> = ({ pokemon, isEditMode = false, isChec
             sx={{
               flexDirection: 'column',
               justifyContent: 'start',
-              padding: '0'
+              padding: '0',
+              '& .MuiButton-root': {
+                textAlign: 'left',
+                alignSelf: 'start'
+              }
             }}>
-            <Button
-              size='small'
-              color='primary'
-              sx={{ textAlign: 'left', alignSelf: 'start', color: 'white' }}
-              onClick={() => shareClick()}>
+            <Button size='small' color='primary' sx={{ color: 'white' }} onClick={() => shareClick()}>
               Share
             </Button>
-            <Button
-              size='small'
-              sx={{ textAlign: 'left', alignSelf: 'start', color: 'white' }}
-              onClick={() => moreDetailsClick()}>
+            <Button size='small' sx={{ color: 'white' }} onClick={() => moreDetailsClick()}>
               More details...
             </Button>
             {isEditMode && !isTextFieldShown && (
-              <Button size='small' color='secondary' variant='contained' onClick={() => setIsTextFieldShown(true)}>
+              <Button
+                size='small'
+                color='secondary'
+                variant='contained'
+                sx={{ justifySelf: 'start' }}
+                onClick={() => setIsTextFieldShown(true)}>
                 Add text note
               </Button>
             )}

@@ -50,7 +50,7 @@ const PokemonGrid: FC<PokemonGridProps> = ({ pokemons, isLoading = false, isEdit
             pokemons?.map((item) => {
               return (
                 <Grid size={{ xs: 6, md: 4, lg: 4 }} key={item.id} display={'flex'}>
-                  <Box mt={1} mx={2} flex={1}>
+                  <Box mt={2} mx={2} flex={1}>
                     <PokemonCard
                       pokemon={item}
                       isEditMode={isEditMode}
