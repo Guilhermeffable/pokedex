@@ -20,7 +20,7 @@ import SortDropdown from 'components/organisms/SortDropdown/SortDropdown';
 import { PokemonClient } from 'pokenode-ts';
 import { getCaughtPokemons } from 'utils/localStorage';
 
-import { sortPokemons } from './MyPodekex.utils';
+import { dropdownOptions, sortPokemons } from './MyPodekex.utils';
 import { SortingOptions } from './types';
 
 const MyPokedex = () => {
@@ -107,7 +107,7 @@ const MyPokedex = () => {
                 )}
               </Stack>
               <Stack direction={'row'} spacing={2}>
-                <SortDropdown onSort={onSort} sortingOption={sortingOption} />
+                <SortDropdown onSort={onSort} sortingOption={sortingOption} options={dropdownOptions} />
                 <Button
                   variant='contained'
                   color='primary'
@@ -130,7 +130,7 @@ const MyPokedex = () => {
                   onClick={() => setShowDrawer(true)}>
                   Filters
                 </Button>
-                <SortDropdown onSort={onSort} sortingOption={sortingOption} />
+                <SortDropdown onSort={onSort} sortingOption={sortingOption} options={dropdownOptions} />
               </Stack>
               <Stack direction={'row'} spacing={2} marginBottom={2}>
                 {!isTableView && (

@@ -1,3 +1,4 @@
+import { Option } from 'components/organisms/SortDropdown/types';
 import { parseCustomDate } from 'utils/date';
 import { CaughtPokemon } from 'utils/localStorage';
 
@@ -25,3 +26,14 @@ export const sortPokemons = (pokemons: CaughtPokemon[], sortOption: SortingOptio
       return pokemons;
   }
 };
+
+export const dropdownOptions: Option[] = [
+  { value: SortingOptions.NAME_ASC, label: 'Name - a - Z' },
+  { value: SortingOptions.NAME_DESC, label: 'Name - z - A' },
+  { value: SortingOptions.HEIGHT_ASC, label: 'Height - Ascending' },
+  { value: SortingOptions.HEIGHT_DESC, label: 'Height - Descending' },
+  { value: SortingOptions.WEIGHT_ASC, label: 'Weight - Ascending' },
+  { value: SortingOptions.WEIGHT_DESC, label: 'Weight - Descending' },
+  { value: SortingOptions.DATE_ASC, label: 'Caught date - Ascending' },
+  { value: SortingOptions.DATE_DESC, label: 'Caught date - Descending' }
+];
