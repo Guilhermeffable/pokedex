@@ -8,7 +8,8 @@ import { AppState } from './types';
 const initialState: AppState = {
   listedPokemons: [],
   selectedPokemon: undefined,
-  currentPage: 1
+  currentPage: 1,
+  caughtPokemons: []
 };
 
 const Context = React.createContext<{

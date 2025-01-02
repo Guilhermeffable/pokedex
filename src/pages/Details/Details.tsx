@@ -9,7 +9,7 @@ import { useAppContext } from 'context';
 import { PokemonClient } from 'pokenode-ts';
 import { ActionTypes } from 'reducer/types';
 import { formatDateTime } from 'utils/date';
-import { updateCaughtPokemons, getCaughtPokemons } from 'utils/localStorage';
+import { updateCaughtPokemons } from 'utils/localStorage';
 
 const GreenSwitch = styled(Switch)(({ theme }) => ({
   '& .MuiSwitch-switchBase.Mui-checked': {
@@ -26,13 +26,13 @@ const GreenSwitch = styled(Switch)(({ theme }) => ({
 const pokemonQueryParam = new URLSearchParams(window.location.search).get('pokemon');
 
 const Details = () => {
-  const caughtPokemons = getCaughtPokemons();
-
   const { state, dispatch } = useAppContext();
   const [pokemon, setPokemon] = React.useState(state.selectedPokemon);
   const [isChecked, setIsChecked] = React.useState<boolean>(
-    caughtPokemons.some((p) => p.name === (pokemon?.name || pokemonQueryParam))
+    state.caughtPokemons.some((p) => p.name === (pokemon?.name || pokemonQueryParam))
   );
+
+  const caughtPokemons = state.caughtPokemons;
 
   const caughtPokemon = caughtPokemons.find((item) => item.name === pokemon?.name);
 
@@ -40,6 +40,19 @@ const Details = () => {
 
   const onCaughtChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     updateCaughtPokemons(!event.target.checked, pokemon);
+
+    if (event.target.checked && pokemon) {
+      dispatch({
+        type: ActionTypes.ADD_CAUGHT_POKEMON,
+        payload: { ...pokemon, timestamp: formatDateTime(new Date()) }
+      });
+    } else {
+      dispatch({
+        type: ActionTypes.SET_CAUGHT_POKEMONS,
+        payload: caughtPokemons.filter((p) => p.name !== pokemon?.name)
+      });
+    }
+
     setIsChecked(event.target.checked);
   };
 
@@ -64,7 +77,7 @@ const Details = () => {
   return (
     <Container>
       <Header dividerLabel='Pokemon details' />
-      <Typography variant='body1' sx={{ mt: 2, mb: 2, textTransform: 'uppercase', textAlign: 'center' }}>
+      <Box sx={{ mt: 2, mb: 2, textTransform: 'uppercase', textAlign: 'center' }}>
         <Stack direction={'column'} spacing={2} alignItems={'center'}>
           <Stack direction={'row'} spacing={2}>
             <span>{pokemon?.name}</span>
@@ -76,11 +89,19 @@ const Details = () => {
             })}
           </Stack>
         </Stack>
-      </Typography>
+      </Box>
       <Grid container spacing={2}>
         <Grid size={{ xs: 12, md: 6 }}>
           <Paper square={false} elevation={3}>
-            <img src={pokemon?.sprites.front_default || ''} width={'100%'} height={'100%'} alt={pokemon?.name} />
+            <img
+              src={
+                pokemon?.sprites.front_default ||
+                'https://icon-library.com/images/small-pokeball-icon/small-pokeball-icon-5.jpg'
+              }
+              width={'100%'}
+              height={'100%'}
+              alt={pokemon?.name}
+            />
           </Paper>
         </Grid>
         <Grid size={{ xs: 12, md: 6 }}>
@@ -100,14 +121,14 @@ const Details = () => {
             })}
             <Box component={'li'}>
               {isChecked && (
-                <Box component={'p'}>
+                <Box component={'span'}>
                   Was caught in:
                   {isChecked && !caughtPokemon ? formatDateTime(new Date()) : caughtPokemon?.timestamp}
                 </Box>
               )}
-              <Box component={'li'}>
-                {caughtPokemon?.textNote && <Box component={'p'}>Additional notes: {caughtPokemon.textNote}</Box>}
-              </Box>
+            </Box>
+            <Box component={'li'}>
+              {caughtPokemon?.textNote && <Box component={'p'}>Additional notes: {caughtPokemon.textNote}</Box>}
             </Box>
           </Box>
         </Grid>
@@ -117,7 +138,7 @@ const Details = () => {
             <Box component={'label'} htmlFor='caught' sx={{ fontSize: { xs: '0.75rem', lg: '1rem' } }}>
               Did you catch this Pokemon ?
             </Box>
-            <GreenSwitch id='caught' {...switchProps} defaultChecked={isChecked} onChange={onCaughtChange} />
+            <GreenSwitch id='caught' {...switchProps} checked={isChecked} onChange={onCaughtChange} />
           </Stack>
         </Grid>
       </Grid>

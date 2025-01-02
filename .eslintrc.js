@@ -20,7 +20,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:react/recommended',
     'plugin:prettier/recommended',
-    'eslint-config-prettier',
+    'eslint-config-prettier'
   ],
   parser: '@typescript-eslint/parser',
   plugins: [
@@ -45,64 +45,67 @@ module.exports = {
 
       parserOptions: {
         tsconfigRootDir: __dirname,
-        project: './tsconfig.json',
+        project: './tsconfig.json'
       }
     }
   ],
   root: true,
   rules: {
-    "import/order": ["error", {
-      "groups": ["builtin", "external", "parent", "sibling", "index"],
-      "pathGroups": [
-        {
-          "pattern": "react",
-          "group": "builtin",
-          "position": "before"
-        },
-        {
-          "pattern": "@app",
-          "group": "parent"
-        },
-        {
-          "pattern": "@api/**",
-          "group": "parent"
-        },
-        {
-          "pattern": "@assets/**",
-          "group": "parent"
-        },
-        {
-          "pattern": "@contexts/**",
-          "group": "parent"
-        },
-        {
-          "pattern": "@components/**",
-          "group": "parent"
-        },
-        {
-          "pattern": "@hooks/**",
-          "group": "parent"
-        },
-        {
-          "pattern": "@pages/**",
-          "group": "parent"
-        },
-        {
-          "pattern": "@reducers/**",
-          "group": "parent"
-        },
-        {
-          "pattern": "@utils/**",
-          "group": "parent"
+    'import/order': [
+      'error',
+      {
+        groups: ['builtin', 'external', 'parent', 'sibling', 'index'],
+        pathGroups: [
+          {
+            pattern: 'react',
+            group: 'builtin',
+            position: 'before'
+          },
+          {
+            pattern: '@app',
+            group: 'parent'
+          },
+          {
+            pattern: '@api/**',
+            group: 'parent'
+          },
+          {
+            pattern: '@assets/**',
+            group: 'parent'
+          },
+          {
+            pattern: '@contexts/**',
+            group: 'parent'
+          },
+          {
+            pattern: '@components/**',
+            group: 'parent'
+          },
+          {
+            pattern: '@hooks/**',
+            group: 'parent'
+          },
+          {
+            pattern: '@pages/**',
+            group: 'parent'
+          },
+          {
+            pattern: '@reducers/**',
+            group: 'parent'
+          },
+          {
+            pattern: '@utils/**',
+            group: 'parent'
+          }
+        ],
+        pathGroupsExcludedImportTypes: ['react'],
+        'newlines-between': 'always',
+        alphabetize: {
+          order: 'asc',
+          caseInsensitive: true
         }
-      ],
-      "pathGroupsExcludedImportTypes": ["react"],
-      "newlines-between": "always",
-      "alphabetize": {
-        "order": "asc",
-        "caseInsensitive": true
       }
-    }],
+    ],
     curly: 'error',
     '@typescript-eslint/adjacent-overload-signatures': 'error',
     '@typescript-eslint/array-type': [

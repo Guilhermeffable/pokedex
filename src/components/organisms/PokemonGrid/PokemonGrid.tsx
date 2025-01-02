@@ -1,14 +1,17 @@
 import React, { FC, useState } from 'react';
 
 import { Box, Button, Grid2 as Grid, Skeleton, Stack } from '@mui/material';
-import PokemonCard from 'components/atoms/PokemonCard/PokemonCard';
+import PokemonCard from 'components/molecules/PokemonCard/PokemonCard';
+import { useAppContext } from 'context';
+import { ActionTypes } from 'reducer/types';
 import { addTextNoteToCaughtPokemon, bulkRemoveCaughtPokemons } from 'utils/localStorage';
 
-import DeleteDialog from '../DeleteDialog/DeleteDialog';
+import DeleteDialog from '../../molecules/DeleteDialog/DeleteDialog';
 
 import { PokemonGridProps } from './types';
 
 const PokemonGrid: FC<PokemonGridProps> = ({ pokemons, isLoading = false, isEditMode = false, setIsEditMode }) => {
+  const { state, dispatch } = useAppContext();
   const [checkedPokemons, setCheckedPokemons] = useState<number[]>([]);
   const [showRemoveDialog, setShowRemoveDialog] = useState(false);
 
@@ -18,9 +21,14 @@ const PokemonGrid: FC<PokemonGridProps> = ({ pokemons, isLoading = false, isEdit
 
   const saveTextNote = (pokemonId: number, textNote: string) => {
     addTextNoteToCaughtPokemon(pokemonId, textNote);
+    dispatch({ type: ActionTypes.ADD_TEXT_NOTE_TO_CAUGHT_POKEMON, payload: { pokemonId, textNote } });
   };
 
   const onRemoveClick = () => {
+    dispatch({
+      type: ActionTypes.SET_CAUGHT_POKEMONS,
+      payload: state.caughtPokemons.filter((pokemon) => !checkedPokemons.includes(pokemon.id))
+    });
     bulkRemoveCaughtPokemons(checkedPokemons);
     setCheckedPokemons([]);
     setIsEditMode?.(false);
@@ -65,13 +73,11 @@ const PokemonGrid: FC<PokemonGridProps> = ({ pokemons, isLoading = false, isEdit
           Remove
         </Button>
       )}
-      {showRemoveDialog && (
-        <DeleteDialog
-          onRemoveClick={onRemoveClick}
-          showRemoveDialog={showRemoveDialog}
-          setShowRemoveDialog={setShowRemoveDialog}
-        />
-      )}
+      <DeleteDialog
+        onRemoveClick={onRemoveClick}
+        showRemoveDialog={showRemoveDialog}
+        setShowRemoveDialog={setShowRemoveDialog}
+      />
     </Stack>
   );
 };

@@ -1,4 +1,4 @@
-import { Option } from 'components/organisms/SortDropdown/types';
+import { Option } from 'components/molecules/SortDropdown/types';
 import { parseCustomDate } from 'utils/date';
 import { CaughtPokemon } from 'utils/localStorage';
 

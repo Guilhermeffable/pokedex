@@ -17,22 +17,21 @@ import {
 import { useAppContext } from 'context';
 import { useNavigate } from 'react-router-dom';
 import { ActionTypes } from 'reducer/types';
-import { getCaughtPokemons } from 'utils/localStorage';
 
-import Icon from '../Icon/Icon';
-import { PokemonTypes } from '../Icon/types';
+import Icon from '../../atoms/Icon/Icon';
+import { PokemonTypes } from '../../atoms/Icon/types';
 
 import { PokemonCardProps } from './types';
 import { DEFAULT_IMG } from './utils';
 
 const PokemonCard: FC<PokemonCardProps> = ({ pokemon, isEditMode = false, isChecked, onCheck, onSaveTextNote }) => {
-  const { dispatch } = useAppContext();
+  const { dispatch, state } = useAppContext();
   const navigate = useNavigate();
   const [isSnackBarOpen, setIsSnackBarOpen] = React.useState(false);
   const [isTextFieldShown, setIsTextFieldShown] = React.useState(false);
   const [textNote, setTextNote] = React.useState('');
 
-  const hasBeenCaught = getCaughtPokemons().some((p) => p.name === pokemon.name);
+  const hasBeenCaught = state.caughtPokemons.some((p) => p.name === pokemon.name);
 
   const moreDetailsClick = () => {
     dispatch({ type: ActionTypes.SET_SELECTED_POKEMON, payload: pokemon });
