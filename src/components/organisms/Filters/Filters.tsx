@@ -56,8 +56,7 @@ const Filters: FC<FiltersProps> = ({ selectedType, onSelectType, types, onSearch
       <Button
         color='primary'
         variant='outlined'
-        sx={{ justifySelf: { xs: 'flex-end', md: 'start' } }}
-        className='text-xs'
+        sx={{ justifySelf: { xs: 'flex-end', md: 'start' }, fontSize: '0.75rem' }}
         onClick={clearFilters}
         disabled={!selectedType && !search}>
         Clear filters

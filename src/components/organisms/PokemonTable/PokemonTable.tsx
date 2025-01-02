@@ -11,7 +11,7 @@ import {
   GridToolbarFilterButton
 } from '@mui/x-data-grid';
 import { Delete } from 'assets/svg';
-import DeleteDialog from 'components/molecules/DeleteDialog';
+import DeleteDialog from 'components/molecules/DeleteDialog/DeleteDialog';
 import { bulkRemoveCaughtPokemons } from 'utils/localStorage';
 
 import { getDataGridColumns, getDataGridRows } from './PokemonTable.utils';
@@ -74,7 +74,6 @@ const PokemonTable: FC<PokemonTableProps> = ({ pokemons }) => {
           rows={rows}
           columns={dataGridColumns}
           checkboxSelection
-          className='leading-none'
           onRowSelectionModelChange={handleSelectionModelChange}
           slots={{
             toolbar: () => (

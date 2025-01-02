@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 
 import {
+  Box,
   Button,
   Card,
   CardActions,
@@ -17,6 +18,9 @@ import { useAppContext } from 'context';
 import { useNavigate } from 'react-router-dom';
 import { ActionTypes } from 'reducer/types';
 import { getCaughtPokemons } from 'utils/localStorage';
+
+import Icon from '../Icon/Icon';
+import { PokemonTypes } from '../Icon/types';
 
 import { PokemonCardProps } from './types';
 import { DEFAULT_IMG } from './utils';
@@ -54,7 +58,14 @@ const PokemonCard: FC<PokemonCardProps> = ({ pokemon, isEditMode = false, isChec
   };
 
   return (
-    <Card sx={{ height: '100%', position: 'relative' }} className='flex-grow flex flex-col justify-between'>
+    <Card
+      sx={{
+        height: '100%',
+        position: 'relative',
+        flex: '1',
+        flexDirection: 'column',
+        justifyContent: 'space-between'
+      }}>
       {isEditMode && (
         <Checkbox
           checked={isChecked}
@@ -72,12 +83,12 @@ const PokemonCard: FC<PokemonCardProps> = ({ pokemon, isEditMode = false, isChec
         onClick={() => moreDetailsClick()}
       />
       <CardContent>
-        <Stack spacing={2} justifyContent={'space-between'}>
-          <div className='flex justify-between align-center mb-2'>
+        <Stack spacing={2} direction={'column'}>
+          <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} mb={2}>
             <Typography
               variant='h5'
               component='div'
-              className='uppercase'
+              textTransform={'uppercase'}
               sx={{
                 fontWeight: '800',
                 wordBreak: 'break-word',
@@ -85,6 +96,11 @@ const PokemonCard: FC<PokemonCardProps> = ({ pokemon, isEditMode = false, isChec
               }}>
               {pokemon.name}
             </Typography>
+            <Stack direction={'row'} spacing={2}>
+              {pokemon?.types.map((type) => {
+                return <Icon key={type.type.name} type={type.type.name as PokemonTypes} />;
+              })}
+            </Stack>
             {hasBeenCaught && (
               <Chip
                 label='CAUGHT'
@@ -93,7 +109,7 @@ const PokemonCard: FC<PokemonCardProps> = ({ pokemon, isEditMode = false, isChec
                 sx={{ position: 'absolute', top: '0.5rem', right: '0.25rem' }}
               />
             )}
-          </div>
+          </Box>
           <CardActions
             disableSpacing
             sx={{
@@ -126,7 +142,7 @@ const PokemonCard: FC<PokemonCardProps> = ({ pokemon, isEditMode = false, isChec
           </Button>
         )}
         {isTextFieldShown && (
-          <div className='mt-2'>
+          <Box component='div' mt={2}>
             <TextField multiline label='Note' onChange={(e) => setTextNote(e.target.value)} />
             <Button
               color='success'
@@ -138,7 +154,7 @@ const PokemonCard: FC<PokemonCardProps> = ({ pokemon, isEditMode = false, isChec
               }}>
               Save
             </Button>
-          </div>
+          </Box>
         )}
       </CardContent>
     </Card>

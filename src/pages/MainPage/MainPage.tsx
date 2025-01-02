@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import { Box, Button, Container, Divider, Stack } from '@mui/material';
-import Pagination from 'components/atoms/Pagination';
+import { Button, Container, Divider, Stack } from '@mui/material';
+import Pagination from 'components/atoms/Pagination/Pagination';
 import Progress from 'components/atoms/Progress/Progress';
 import LoadingScreen from 'components/molecules/LoadingScreen/LoadingScreen';
-import PokemonGrid from 'components/molecules/PokemonGrid';
+import PokemonGrid from 'components/molecules/PokemonGrid/PokemonGrid';
+import Header from 'components/organisms/Header/Header';
 import { useAppContext } from 'context';
 import { PokemonClient, Pokemon } from 'pokenode-ts';
 import { useNavigate } from 'react-router-dom';
@@ -12,14 +13,12 @@ import { ActionTypes } from 'reducer/types';
 import { fetchAllPokemons } from 'utils/csv';
 import { getCaughtPokemons } from 'utils/localStorage';
 
-import PokemonLogo from '../../assets/images/pokemon-logo.png';
-
 const MainPage = () => {
   const caughtPokemons = getCaughtPokemons();
+  const { state, dispatch } = useAppContext();
 
   const [pokemons, setPokemons] = useState<Pokemon[]>();
   const numberOfPokemons = useRef<number>(0);
-  const { state, dispatch } = useAppContext();
   const [isLoading, setIsLoading] = useState(true);
   const [isExporting, setIsExporting] = useState(false);
   const navigate = useNavigate();
@@ -68,14 +67,7 @@ const MainPage = () => {
 
   return (
     <Container>
-      <Box component='div' sx={{ mb: 4 }}>
-        <Box
-          component='img'
-          src={PokemonLogo}
-          alt='pokemon-logo'
-          sx={{ width: '100%', maxWidth: '700px', margin: 'auto' }}
-        />
-      </Box>
+      <Header />
       <Stack direction='row' justifyContent={'center'} spacing={2} sx={{ mb: 2 }}>
         <Button
           sx={{ cursor: 'pointer' }}

@@ -2,8 +2,9 @@ import React, { useEffect } from 'react';
 
 import { alpha, Box, Container, Divider, Grid2 as Grid, Paper, Stack, styled, Switch, Typography } from '@mui/material';
 import { green } from '@mui/material/colors';
-import Icon from 'components/atoms/Icon';
+import Icon from 'components/atoms/Icon/Icon';
 import { PokemonTypes } from 'components/atoms/Icon/types';
+import Header from 'components/organisms/Header/Header';
 import { useAppContext } from 'context';
 import { PokemonClient } from 'pokenode-ts';
 import { ActionTypes } from 'reducer/types';
@@ -62,9 +63,7 @@ const Details = () => {
 
   return (
     <Container>
-      <Typography variant='h4' sx={{ mt: 2, mb: 2, textTransform: 'uppercase', textAlign: 'center' }}>
-        Pokemon details
-      </Typography>
+      <Header dividerLabel='Pokemon details' />
       <Typography variant='body1' sx={{ mt: 2, mb: 2, textTransform: 'uppercase', textAlign: 'center' }}>
         <Stack direction={'column'} spacing={2} alignItems={'center'}>
           <Stack direction={'row'} spacing={2}>

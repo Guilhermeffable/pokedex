@@ -12,6 +12,7 @@ import { ReactComponent as Grass } from './grass.svg';
 import { ReactComponent as Ground } from './ground.svg';
 import { ReactComponent as Ice } from './ice.svg';
 import { ReactComponent as Normal } from './normal.svg';
+import { ReactComponent as PlusCircle } from './plus-circle.svg';
 import { ReactComponent as Poison } from './poison.svg';
 import { ReactComponent as PokemonLogo } from './pokemon.svg';
 import { ReactComponent as Psychic } from './psychic.svg';
@@ -34,6 +35,7 @@ export {
   Ground,
   Ice,
   Normal,
+  PlusCircle,
   Poison,
   PokemonLogo,
   Psychic,

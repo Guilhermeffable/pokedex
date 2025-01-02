@@ -9,12 +9,13 @@ import {
   Grid2 as Grid,
   SelectChangeEvent,
   Stack,
-  Typography,
   useMediaQuery
 } from '@mui/material';
-import PokemonGrid from 'components/molecules/PokemonGrid';
+import PokemonGrid from 'components/molecules/PokemonGrid/PokemonGrid';
+import ChartsView from 'components/organisms/ChartsView/ChartsView';
 import Filters from 'components/organisms/Filters/Filters';
-import PokemonTable from 'components/organisms/PokemonTable';
+import Header from 'components/organisms/Header/Header';
+import PokemonTable from 'components/organisms/PokemonTable/PokemonTable';
 import SortDropdown from 'components/organisms/SortDropdown/SortDropdown';
 import { PokemonClient } from 'pokenode-ts';
 import { getCaughtPokemons } from 'utils/localStorage';
@@ -78,13 +79,7 @@ const MyPokedex = () => {
 
   return (
     <Container>
-      <Typography
-        variant='h1'
-        sx={{ mt: 2, mb: 2, fontSize: { xs: '4rem', lg: '5rem' } }}
-        className='uppercase text-center'>
-        My Pokedex
-      </Typography>
-      <Divider sx={{ mb: 4 }} />
+      <Header dividerLabel='My pokedex' />
       <Grid container paddingBottom={4}>
         {!isMobile && (
           <Grid size={{ xs: 12, lg: 12 }} offset={{ lg: 3 }}>
@@ -202,7 +197,11 @@ const MyPokedex = () => {
         </Grid>
         <Grid size={{ xs: 12, lg: isTableView ? 12 : 9 }}>
           {isTableView ? (
-            <PokemonTable pokemons={filteredAndSortedResults} />
+            isMobile ? (
+              <ChartsView pokemons={filteredAndSortedResults} />
+            ) : (
+              <PokemonTable pokemons={filteredAndSortedResults} />
+            )
           ) : (
             <Stack direction={'row'} spacing={2}>
               <PokemonGrid pokemons={filteredAndSortedResults} isEditMode={isEditMode} setIsEditMode={setIsEditMode} />

@@ -1,10 +1,10 @@
 import React, { FC, useState } from 'react';
 
-import { Button, Grid2 as Grid, Skeleton, Stack } from '@mui/material';
-import PokemonCard from 'components/atoms/PokemonCard';
+import { Box, Button, Grid2 as Grid, Skeleton, Stack } from '@mui/material';
+import PokemonCard from 'components/atoms/PokemonCard/PokemonCard';
 import { addTextNoteToCaughtPokemon, bulkRemoveCaughtPokemons } from 'utils/localStorage';
 
-import DeleteDialog from '../DeleteDialog';
+import DeleteDialog from '../DeleteDialog/DeleteDialog';
 
 import { PokemonGridProps } from './types';
 
@@ -41,8 +41,8 @@ const PokemonGrid: FC<PokemonGridProps> = ({ pokemons, isLoading = false, isEdit
           : pokemons &&
             pokemons?.map((item) => {
               return (
-                <Grid size={{ xs: 6, md: 4, lg: 4 }} key={item.id} className='flex'>
-                  <div className='mt-1 mx-2 flex-grow'>
+                <Grid size={{ xs: 6, md: 4, lg: 4 }} key={item.id} display={'flex'}>
+                  <Box mt={1} mx={2} flex={1}>
                     <PokemonCard
                       pokemon={item}
                       isEditMode={isEditMode}
@@ -50,7 +50,7 @@ const PokemonGrid: FC<PokemonGridProps> = ({ pokemons, isLoading = false, isEdit
                       onCheck={(checked) => handleCheck(item.id, checked)}
                       onSaveTextNote={(textNote) => saveTextNote(item.id, textNote)}
                     />
-                  </div>
+                  </Box>
                 </Grid>
               );
             })}

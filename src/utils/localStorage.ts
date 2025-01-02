@@ -5,6 +5,12 @@ import { formatDateTime } from './date';
 
 export type CaughtPokemon = Pokemon & { timestamp: string; textNote?: string };
 
+export const createLocalStorage = () => {
+  if (!localStorage.getItem('caughtPokemons')) {
+    localStorage.setItem('caughtPokemons', JSON.stringify([]));
+  }
+};
+
 export const updateCaughtPokemons = (shouldRemove: boolean, pokemon?: Pokemon) => {
   const caughtPokemons = localStorage.getItem('caughtPokemons');
   let updatedCaughtPokemons: CaughtPokemon[] = [];

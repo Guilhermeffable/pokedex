@@ -10,7 +10,7 @@ const Progress: FC<ProgressProps> = ({ progress, total }) => {
       <Divider sx={{ mb: 4 }}>Progress</Divider>
       <Stack direction='row' justifyContent={'center'} spacing={2} sx={{ mb: 2 }}>
         <Stack direction='column' spacing={2} sx={{ width: '100%' }} justifyContent={'center'}>
-          <Typography variant='body1' className='text-center'>
+          <Typography variant='body1' textAlign={'center'}>
             Your pokedex progress is : {progress} caught / {total} in the wild
           </Typography>
         </Stack>

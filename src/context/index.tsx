@@ -1,4 +1,4 @@
-import React, { useContext, useReducer } from 'react';
+import React, { use, useReducer } from 'react';
 
 import { reducer } from 'reducer';
 import { Actions } from 'reducer/types';
@@ -20,7 +20,7 @@ const Context = React.createContext<{
 });
 
 const useAppContext = () => {
-  const appContext = useContext(Context);
+  const appContext = use(Context);
   if (appContext === undefined) {
     throw new Error('useAppContext must be used within a context provider!');
   }
