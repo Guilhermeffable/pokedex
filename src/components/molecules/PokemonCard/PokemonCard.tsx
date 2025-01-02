@@ -85,8 +85,14 @@ const PokemonCard: FC<PokemonCardProps> = ({ pokemon, isEditMode = false, isChec
         onClick={() => moreDetailsClick()}
       />
       <CardContent sx={{ flex: '1', display: 'flex' }}>
-        <Stack spacing={2} direction={'column'} justifyContent={'space-between'}>
-          <Box display={'flex'} flexDirection={'column'} justifyContent={'space-between'} alignItems={'center'} mb={2}>
+        <Stack spacing={2} direction={'column'} justifyContent={'space-between'} flex={1}>
+          <Box
+            display={'flex'}
+            flexDirection={'column'}
+            justifyContent={'space-between'}
+            alignItems={'center'}
+            flex={1}
+            mb={2}>
             <Typography
               variant='body2'
               component='div'
