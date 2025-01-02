@@ -9,7 +9,16 @@ import MyPokedex from 'pages/MyPokedex/MyPokedex';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 const theme = createTheme({
-  typography: { fontFamily: 'Pokemon, sans-serif' }
+  typography: { fontFamily: 'Pokemon, sans-serif' },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          variants: [{ props: { variant: 'contained', color: 'secondary' }, style: { background: '#c7a008' } }]
+        }
+      }
+    }
+  }
 });
 
 const App: FC = () => {

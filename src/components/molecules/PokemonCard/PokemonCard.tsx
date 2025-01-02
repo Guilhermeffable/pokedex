@@ -88,7 +88,7 @@ const PokemonCard: FC<PokemonCardProps> = ({ pokemon, isEditMode = false, isChec
         <Stack spacing={2} direction={'column'} justifyContent={'space-between'}>
           <Box display={'flex'} flexDirection={'column'} justifyContent={'space-between'} alignItems={'center'} mb={2}>
             <Typography
-              variant='h5'
+              variant='body2'
               component='div'
               textTransform={'uppercase'}
               sx={{
@@ -96,7 +96,7 @@ const PokemonCard: FC<PokemonCardProps> = ({ pokemon, isEditMode = false, isChec
                 wordBreak: 'break-word',
                 textAlign: 'left'
               }}>
-              {pokemon.name}
+              {pokemon.name} #{pokemon.id}
             </Typography>
             <Stack direction={'row'} spacing={2} my={1}>
               {pokemon?.types.map((type) => {
@@ -132,6 +132,31 @@ const PokemonCard: FC<PokemonCardProps> = ({ pokemon, isEditMode = false, isChec
               onClick={() => moreDetailsClick()}>
               More details...
             </Button>
+            {isEditMode && !isTextFieldShown && (
+              <Button size='small' color='secondary' variant='contained' onClick={() => setIsTextFieldShown(true)}>
+                Add text note
+              </Button>
+            )}
+            {isTextFieldShown && (
+              <Box component='div' mt={2}>
+                <TextField
+                  multiline
+                  label='Note'
+                  onChange={(e) => setTextNote(e.target.value)}
+                  sx={{ background: 'white' }}
+                />
+                <Button
+                  color='success'
+                  variant='outlined'
+                  sx={{ mt: 1, background: 'white' }}
+                  onClick={() => {
+                    setIsTextFieldShown(false);
+                    onSaveTextNote?.(textNote);
+                  }}>
+                  Save
+                </Button>
+              </Box>
+            )}
           </CardActions>
         </Stack>
         <Snackbar
@@ -141,26 +166,6 @@ const PokemonCard: FC<PokemonCardProps> = ({ pokemon, isEditMode = false, isChec
           message='Link was copied to your clipboard!'
           sx={{ width: { xs: '100%', sm: 'auto' } }}
         />
-        {isEditMode && !isTextFieldShown && (
-          <Button size='small' color='secondary' variant='contained' onClick={() => setIsTextFieldShown(true)}>
-            Add text note
-          </Button>
-        )}
-        {isTextFieldShown && (
-          <Box component='div' mt={2}>
-            <TextField multiline label='Note' onChange={(e) => setTextNote(e.target.value)} />
-            <Button
-              color='success'
-              variant='outlined'
-              sx={{ mt: 1 }}
-              onClick={() => {
-                setIsTextFieldShown(false);
-                onSaveTextNote?.(textNote);
-              }}>
-              Save
-            </Button>
-          </Box>
-        )}
       </CardContent>
     </Card>
   );

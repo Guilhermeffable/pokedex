@@ -77,7 +77,7 @@ const MainPage = () => {
           onClick={() => void navigate('/my-pokedex')}>
           My pokedex
         </Button>
-        <Button color='secondary' variant='outlined' onClick={() => exportPokemons()}>
+        <Button color='secondary' variant='contained' onClick={() => exportPokemons()}>
           Export all pokemons
         </Button>
       </Stack>

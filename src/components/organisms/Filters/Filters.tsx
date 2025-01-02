@@ -50,7 +50,7 @@ const Filters: FC<FiltersProps> = ({ selectedType, onSelectType, types, onSearch
           <Typography variant='body1' flexBasis={'25%'}>
             Search by name:
           </Typography>
-          <TextField id='outlined-basic' label='Name' variant='outlined' sx={{ width: 200 }} onChange={onSearch} />
+          <TextField id='outlined-basic' variant='outlined' sx={{ width: 200 }} onChange={onSearch} value={search} />
         </Stack>
       </Stack>
       <Button
