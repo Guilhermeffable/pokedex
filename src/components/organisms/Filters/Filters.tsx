@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material';
+import { capitalizeFirstLetter } from 'utils/generic';
 
 import { FiltersProps } from './types';
 
@@ -28,18 +29,19 @@ const Filters: FC<FiltersProps> = ({ selectedType, onSelectType, types, onSearch
           marginBottom={2}>
           <p>Type:</p>
           <FormControl sx={{ minWidth: 120 }}>
-            <InputLabel id='pokemon-type'>Type</InputLabel>
             <Select
               labelId='pokemon-type'
               id='demo-simple-select'
               value={selectedType}
-              label='Type'
               fullWidth
-              onChange={onSelectType}>
+              displayEmpty
+              onChange={onSelectType}
+              aria-placeholder='Type'>
+              <MenuItem value=''>Type</MenuItem>
               {types.map((type, index) => {
                 return (
                   <MenuItem value={type} key={`${type}-${index}`}>
-                    {type}
+                    {capitalizeFirstLetter(type)}
                   </MenuItem>
                 );
               })}

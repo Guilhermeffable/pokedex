@@ -46,7 +46,10 @@ const MyPokedex = () => {
     }
 
     if (selectedType) {
-      filtered = filtered.filter((pokemon) => pokemon.types.some((type) => type.type.name === selectedType));
+      filtered =
+        selectedType !== 'Type'
+          ? filtered.filter((pokemon) => pokemon.types.some((type) => type.type.name === selectedType))
+          : caughtPokemon;
     }
 
     return sortingOption ? sortPokemons(filtered, sortingOption) : filtered;
