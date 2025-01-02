@@ -1,20 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import { Button, Container, Divider, Stack } from '@mui/material';
-import Pagination from 'components/atoms/Pagination/Pagination';
 import Progress from 'components/atoms/Progress/Progress';
 import LoadingScreen from 'components/molecules/LoadingScreen/LoadingScreen';
-import PokemonGrid from 'components/molecules/PokemonGrid/PokemonGrid';
+import Pagination from 'components/molecules/Pagination/Pagination';
 import Header from 'components/organisms/Header/Header';
+import PokemonGrid from 'components/organisms/PokemonGrid/PokemonGrid';
 import { useAppContext } from 'context';
 import { PokemonClient, Pokemon } from 'pokenode-ts';
 import { useNavigate } from 'react-router-dom';
 import { ActionTypes } from 'reducer/types';
 import { fetchAllPokemons } from 'utils/csv';
-import { getCaughtPokemons } from 'utils/localStorage';
+import { createLocalStorage, getCaughtPokemons } from 'utils/localStorage';
 
 const MainPage = () => {
-  const caughtPokemons = getCaughtPokemons();
   const { state, dispatch } = useAppContext();
 
   const [pokemons, setPokemons] = useState<Pokemon[]>();
@@ -22,9 +21,15 @@ const MainPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isExporting, setIsExporting] = useState(false);
   const navigate = useNavigate();
-  const [numberOfCaughtPokemons, setNumberOfCaughtPokemons] = useState<number>(caughtPokemons.length);
 
   const api = new PokemonClient();
+
+  useEffect(() => {
+    createLocalStorage();
+
+    dispatch({ type: ActionTypes.SET_CAUGHT_POKEMONS, payload: getCaughtPokemons() });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const offset = state.currentPage === 1 ? 0 : (state.currentPage - 1) * 20;
@@ -56,10 +61,6 @@ const MainPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.currentPage]);
 
-  useEffect(() => {
-    setNumberOfCaughtPokemons(caughtPokemons.length);
-  }, [caughtPokemons]);
-
   const exportPokemons = () => {
     setIsExporting(true);
     fetchAllPokemons().finally(() => setIsExporting(false));
@@ -80,7 +81,7 @@ const MainPage = () => {
           Export all pokemons
         </Button>
       </Stack>
-      <Progress total={numberOfPokemons.current} progress={numberOfCaughtPokemons} />
+      <Progress total={numberOfPokemons.current} />
       <Divider sx={{ mb: 4 }} />
       <PokemonGrid isLoading={isLoading} pokemons={pokemons} />
       <Pagination numberOfPokemons={numberOfPokemons.current} />
