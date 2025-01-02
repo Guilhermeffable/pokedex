@@ -1,4 +1,5 @@
 import { AppState } from 'context/types';
+
 import { Actions, ActionTypes } from './types';
 
 export const reducer = (state: AppState, action: Actions): AppState => {
@@ -11,7 +12,6 @@ export const reducer = (state: AppState, action: Actions): AppState => {
     }
 
     case ActionTypes.SET_SELECTED_POKEMON: {
-      console.log(action.payload);
       return {
         ...state,
         selectedPokemon: action.payload

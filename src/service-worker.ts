@@ -126,7 +126,6 @@ self.addEventListener('fetch', (event: FetchEvent) => {
               return networkResponse;
             })
             .catch(() => {
-              // Handle the case when the network is unavailable
               return new Response(
                 JSON.stringify({
                   error: 'Network unavailable and no cached data'
@@ -156,7 +155,6 @@ self.addEventListener('fetch', (event: FetchEvent) => {
               return networkResponse;
             })
             .catch(() => {
-              // Handle the case when the network is unavailable
               return new Response(
                 JSON.stringify({
                   error: 'Network unavailable and no cached data'
@@ -181,7 +179,6 @@ self.addEventListener('fetch', (event: FetchEvent) => {
   }
 });
 
-// Activate event
 self.addEventListener('activate', (event: ExtendableEvent) => {
   const cacheWhitelist = [CACHE_NAME, API_CACHE_NAME];
   event.waitUntil(

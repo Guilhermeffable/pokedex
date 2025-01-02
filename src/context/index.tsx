@@ -1,8 +1,9 @@
-import React, { useContext, useReducer } from 'react';
+import React, { use, useReducer } from 'react';
 
-import { AppState } from './types';
 import { reducer } from 'reducer';
 import { Actions } from 'reducer/types';
+
+import { AppState } from './types';
 
 const initialState: AppState = {
   listedPokemons: [],
@@ -19,21 +20,17 @@ const Context = React.createContext<{
 });
 
 const useAppContext = () => {
-  const appContext = useContext(Context);
+  const appContext = use(Context);
   if (appContext === undefined) {
     throw new Error('useAppContext must be used within a context provider!');
   }
   return appContext;
 };
 
-const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
-  children
-}) => {
+const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  return (
-    <Context.Provider value={{ state, dispatch }}>{children}</Context.Provider>
-  );
+  return <Context.Provider value={{ state, dispatch }}>{children}</Context.Provider>;
 };
 
 export { initialState, useAppContext, AppContextProvider };
