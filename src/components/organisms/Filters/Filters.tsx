@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, FormControl, MenuItem, Select, Stack, TextField, Typography } from '@mui/material';
 import { capitalizeFirstLetter } from 'utils/generic';
 
 import { FiltersProps } from './types';
