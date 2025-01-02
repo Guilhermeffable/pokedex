@@ -63,7 +63,10 @@ const PokemonCard: FC<PokemonCardProps> = ({ pokemon, isEditMode = false, isChec
         position: 'relative',
         flex: '1',
         flexDirection: 'column',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        display: 'flex',
+        backgroundColor: '#3c5aa6',
+        color: 'white'
       }}>
       {isEditMode && (
         <Checkbox
@@ -81,9 +84,9 @@ const PokemonCard: FC<PokemonCardProps> = ({ pokemon, isEditMode = false, isChec
         sx={{ cursor: 'pointer' }}
         onClick={() => moreDetailsClick()}
       />
-      <CardContent>
-        <Stack spacing={2} direction={'column'}>
-          <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} mb={2}>
+      <CardContent sx={{ flex: '1', display: 'flex' }}>
+        <Stack spacing={2} direction={'column'} justifyContent={'space-between'}>
+          <Box display={'flex'} flexDirection={'column'} justifyContent={'space-between'} alignItems={'center'} mb={2}>
             <Typography
               variant='h5'
               component='div'
@@ -95,7 +98,7 @@ const PokemonCard: FC<PokemonCardProps> = ({ pokemon, isEditMode = false, isChec
               }}>
               {pokemon.name}
             </Typography>
-            <Stack direction={'row'} spacing={2}>
+            <Stack direction={'row'} spacing={2} my={1}>
               {pokemon?.types.map((type) => {
                 return <Icon key={type.type.name} type={type.type.name as PokemonTypes} />;
               })}
@@ -119,11 +122,14 @@ const PokemonCard: FC<PokemonCardProps> = ({ pokemon, isEditMode = false, isChec
             <Button
               size='small'
               color='primary'
-              sx={{ textAlign: 'left', alignSelf: 'start' }}
+              sx={{ textAlign: 'left', alignSelf: 'start', color: 'white' }}
               onClick={() => shareClick()}>
               Share
             </Button>
-            <Button size='small' sx={{ textAlign: 'left', alignSelf: 'start' }} onClick={() => moreDetailsClick()}>
+            <Button
+              size='small'
+              sx={{ textAlign: 'left', alignSelf: 'start', color: 'white' }}
+              onClick={() => moreDetailsClick()}>
               More details...
             </Button>
           </CardActions>
