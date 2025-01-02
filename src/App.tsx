@@ -14,7 +14,9 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          variants: [{ props: { variant: 'contained', color: 'secondary' }, style: { background: '#c7a008' } }]
+          variants: [
+            { props: { variant: 'contained', color: 'secondary' }, style: { background: '#ffcb05', color: 'black' } }
+          ]
         }
       }
     }
