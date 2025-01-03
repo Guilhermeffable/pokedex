@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import { dropdownOptions } from 'pages/MyPokedex/MyPodekex.utils';
 import { SortingOptions } from 'pages/MyPokedex/types';
 
@@ -38,7 +38,9 @@ test('calls onSort when an option is selected', () => {
   renderComponent({ onSort: onSortMock });
 
   fireEvent.mouseDown(screen.getByLabelText('Sort by'));
-  screen.getAllByRole('option')[1].click();
+  act(() => {
+    screen.getAllByRole('option')[1].click();
+  });
 
   expect(onSortMock).toHaveBeenCalledTimes(1);
 });

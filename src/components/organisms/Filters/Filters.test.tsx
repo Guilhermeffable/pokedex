@@ -37,9 +37,12 @@ describe('Filters component', () => {
     expect(mockProps.onSelectType).toHaveBeenCalled();
   });
 
-  it('calls onSearch when search input changes', () => {
+  it('calls onSearch when search input changes', async () => {
     render(<Filters {...mockProps} />);
-    fireEvent.change(screen.getByLabelText('Name'), { target: { value: 'Pikachu' } });
+
+    const input = await screen.getByTestId('name-input');
+
+    fireEvent.change(input, { target: { value: 'Pikachu' } });
     expect(mockProps.onSearch).toHaveBeenCalled();
   });
 

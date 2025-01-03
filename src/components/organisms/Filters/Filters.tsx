@@ -59,6 +59,7 @@ const Filters: FC<FiltersProps> = ({ selectedType, onSelectType, types, onSearch
             onChange={onSearch}
             value={search}
             placeholder='Name'
+            slotProps={{ htmlInput: { 'data-testid': 'name-input' } }}
           />
         </Stack>
       </Stack>
