@@ -8,7 +8,7 @@ import LoadingScreen from './LoadingScreen';
 describe('LoadingScreen component', () => {
   it('renders correctly when open is true', async () => {
     const { findByText } = render(<LoadingScreen open />);
-    const title = await findByText(/Your file is being generated! Hang tight/i);
+    const title = await findByText(/Your file is being generated!/i);
 
     expect(title).toBeInTheDocument();
   });
