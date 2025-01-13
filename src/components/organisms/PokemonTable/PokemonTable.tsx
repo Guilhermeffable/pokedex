@@ -12,6 +12,8 @@ import {
 } from '@mui/x-data-grid';
 import { Delete } from 'assets/svg';
 import DeleteDialog from 'components/molecules/DeleteDialog/DeleteDialog';
+import { useAppContext } from 'context';
+import { ActionTypes } from 'reducer/types';
 import { bulkRemoveCaughtPokemons } from 'utils/localStorage';
 
 import { getDataGridColumns, getDataGridRows } from './PokemonTable.utils';
@@ -38,6 +40,7 @@ const CustomToolbar: FC<CustomToolbarProps> = ({ handleDeleteRows, selectionMode
 };
 
 const PokemonTable: FC<PokemonTableProps> = ({ pokemons }) => {
+  const { state, dispatch } = useAppContext();
   const dataGridRows = getDataGridRows(pokemons);
   const [rows, setRows] = useState<Row[]>(dataGridRows);
   const [selectionModel, setSelectionModel] = useState<GridRowSelectionModel>([]);
@@ -52,12 +55,20 @@ const PokemonTable: FC<PokemonTableProps> = ({ pokemons }) => {
     setRows((prev) => prev.filter((row) => !selectionModel.includes(row.id)));
     bulkRemoveCaughtPokemons(selectionModel.map((id) => Number(id)));
     setShowDeleteDialog(false);
+    dispatch({
+      type: ActionTypes.SET_CAUGHT_POKEMONS,
+      payload: state.caughtPokemons.filter((pokemon) => !selectionModel.includes(pokemon.id.toString()))
+    });
   };
 
   const handeSingleRowDelete = () => {
     bulkRemoveCaughtPokemons([Number(rowToDeleteId.current)]);
     setRows((prev) => prev.filter((row) => row.id !== rowToDeleteId.current));
     setShowDeleteDialog(false);
+    dispatch({
+      type: ActionTypes.SET_CAUGHT_POKEMONS,
+      payload: state.caughtPokemons.filter((pokemon) => pokemon.id.toString() !== rowToDeleteId.current)
+    });
   };
 
   const getRowToDeleteId = (id: string) => {
